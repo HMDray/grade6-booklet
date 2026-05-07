@@ -273,7 +273,6 @@ h3.sub-heading { font-family:'Fredoka One',cursive; color:var(--b2); font-size:1
   <!-- Tab strip -->
   <div class="tab-strip">
     <button class="tab-btn active" id="tabStudent" onclick="switchTab('student')">👤 Student Mode</button>
-    <button class="tab-btn" id="tabTeacher" onclick="switchTab('teacher')">🔧 Teacher Customise</button>
   </div>
 
   <!-- Student panel -->
@@ -287,17 +286,12 @@ h3.sub-heading { font-family:'Fredoka One',cursive; color:var(--b2); font-size:1
 
   <!-- Teacher panel -->
   <div class="toolbar-panel" id="panelTeacher">
-    <button class="tb-btn tb-btn-edit" id="editBtn" onclick="toggleEdit()">✏️ Edit Text</button>
     <div class="tb-sep"></div>
-    <button class="tb-btn tb-btn-secondary" onclick="document.getElementById('logoInput').click()">🏫 Upload Logo</button>
-    <button class="tb-btn tb-btn-secondary" onclick="removeLogo()">✕ Remove Logo</button>
     <input type="file" id="logoInput" accept="image/*" style="display:none" onchange="uploadLogo(this)">
     <div class="tb-sep"></div>
     <span class="tb-label">Teacher email:</span>
     <input type="email" class="tb-input" id="teacherEmail" placeholder="your@email.com" style="width:180px;">
-    <button class="tb-btn tb-btn-secondary" onclick="saveTeacherEmail()">💾 Save</button>
     <div class="tb-sep"></div>
-    <button class="tb-btn tb-btn-primary" onclick="saveDistributableVersion()">📤 Save Student Version</button>
     <button class="tb-btn tb-btn-secondary" onclick="window.print()">🖨️ Print / PDF</button>
   </div>
 </div>
