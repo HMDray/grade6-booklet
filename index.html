@@ -277,7 +277,38 @@ h3.sub-heading { font-family:'Fredoka One',cursive; color:var(--b2); font-size:1
 
   <!-- Student panel -->
   <div class="toolbar-panel active" id="panelStudent">
-    <button class="tb-btn tb-btn-primary" onclick="downloadStudentWork()">📥 Download My Booklet</button>
+    <script>
+function downloadBooklet() {
+  // Copy text input answers into the HTML
+  document.querySelectorAll('input').forEach(input => {
+    if (input.type === 'checkbox') {
+      if (input.checked) {
+        input.setAttribute('checked', 'checked');
+      } else {
+        input.removeAttribute('checked');
+      }
+    } else if (input.type !== 'file') {
+      input.setAttribute('value', input.value);
+    }
+  });
+
+  // Copy textarea answers into the HTML
+  document.querySelectorAll('textarea').forEach(textarea => {
+    textarea.textContent = textarea.value;
+  });
+
+  // Download the updated page
+  const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  const blob = new Blob([htmlContent], { type: 'text/html' });
+  const link = document.createElement('a');
+
+  link.href = URL.createObjectURL(blob);
+  link.download = 'My_Completed_Summer_Booklet.html';
+  link.click();
+
+  URL.revokeObjectURL(link.href);
+}
+</script>
     <button class="tb-btn tb-btn-secondary" onclick="emailTeacher()">📧 Email My Teacher</button>
     <div class="tb-sep"></div>
     <button class="tb-btn tb-btn-danger" onclick="clearProgress()">🗑️ Clear My Answers</button>
