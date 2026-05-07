@@ -276,7 +276,7 @@ h3.sub-heading { font-family:'Fredoka One',cursive; color:var(--b2); font-size:1
   </div>
 
   <!-- Student panel -->
-  <div class="toolbar-panel active" id="panelStudent">
+  <button class="tb-btn tb-btn-primary" onclick="downloadBooklet()">📥 Download My Booklet</button>
     <script>
 function downloadBooklet() {
   // Copy text input answers into the HTML
@@ -339,7 +339,8 @@ function switchTab(tab) {
   document.getElementById('tabStudent').classList.toggle('active', !isTeacher);
   document.getElementById('tabTeacher').classList.toggle('active', isTeacher);
   document.getElementById('panelStudent').classList.toggle('active', !isTeacher);
-  document.getElementById('panelTeacher').classList.toggle('active', isTeacher);
+  const teacherTab = document.getElementById('tabTeacher');
+if (teacherTab) teacherTab.classList.toggle('active', isTeacher);;
   document.body.classList.toggle('teacher-mode', isTeacher);
   if (!isTeacher && editMode) toggleEdit(); // lock edits when leaving teacher tab
   // Restore teacher email
