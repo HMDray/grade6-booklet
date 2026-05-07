@@ -1,0 +1,1031 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Summer Skills Booklet — Grade 5 to 6</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&amp;family=Fredoka+One&amp;display=swap" rel="stylesheet">
+<style>
+/* ═══ TOKENS ═══ */
+:root {
+  --b1:#4A3200; --b2:#B88000; --b3:#D4A800;
+  --b4:#F5D848; --b5:#FDF5B8; --b6:#FFFDE8;
+  --text:#3A2800; --muted:#7A5C00; --white:#FFFFFF;
+  --shadow:0 4px 16px rgba(120,90,0,.15);
+  --radius:18px; --radius-sm:10px;
+}
+
+/* ═══ TOOLBAR ═══ */
+.toolbar {
+  position:fixed; top:0; left:0; right:0; z-index:9999;
+  background:#3A2800; display:flex; align-items:stretch;
+  box-shadow:0 2px 12px rgba(0,0,0,.4); min-height:50px;
+}
+.tab-strip {
+  display:flex; flex-direction:column; justify-content:flex-end;
+  background:rgba(0,0,0,.25); flex-shrink:0;
+}
+.tab-btn {
+  font-family:'Nunito',sans-serif; font-weight:800; font-size:12px;
+  padding:8px 16px; border:none; cursor:pointer; transition:.15s;
+  background:transparent; color:rgba(255,255,255,.55); white-space:nowrap;
+}
+.tab-btn.active { background:var(--b2); color:#fff; }
+.toolbar-panel {
+  display:none; align-items:center; gap:8px; padding:0 14px; flex-wrap:wrap;
+}
+.toolbar-panel.active { display:flex; }
+.tb-btn {
+  font-family:'Nunito',sans-serif; font-weight:800; font-size:12px;
+  padding:6px 14px; border-radius:7px; border:none; cursor:pointer;
+  transition:.15s; white-space:nowrap;
+}
+.tb-btn-primary { background:var(--b3); color:#fff; }
+.tb-btn-primary:hover { background:var(--b2); }
+.tb-btn-secondary { background:rgba(255,255,255,.15); color:#fff; }
+.tb-btn-secondary:hover { background:rgba(255,255,255,.25); }
+.tb-btn-danger { background:#c0392b; color:#fff; }
+.tb-btn-edit { background:var(--b4); color:var(--b1); }
+.tb-btn-edit.on { background:#c0392b; color:#fff; }
+.tb-sep { width:1px; background:rgba(255,255,255,.2); height:28px; flex-shrink:0; }
+.tb-input {
+  font-family:'Nunito',sans-serif; font-size:12px; font-weight:700;
+  padding:5px 10px; border-radius:7px; border:2px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.12); color:#fff; outline:none; width:200px;
+}
+.tb-input::placeholder { color:rgba(255,255,255,.45); }
+.tb-label { color:rgba(255,255,255,.65); font-size:11px; font-family:'Nunito',sans-serif; font-weight:700; }
+.save-indicator {
+  font-family:'Nunito',sans-serif; font-size:11px; color:rgba(255,255,255,.5);
+  padding:0 8px; transition:opacity .3s;
+}
+.save-indicator.flash { color:#7fdd7f; }
+
+/* ═══ RESET ═══ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body { font-family:'Nunito',sans-serif; background:#e8d890; color:var(--text); line-height:1.6; padding-top:52px; }
+
+/* ═══ PAGE ═══ */
+.page { width:210mm; min-height:297mm; margin:12px auto; background:var(--white); position:relative; overflow:hidden; box-shadow:var(--shadow); }
+
+/* ═══ PRINT ═══ */
+@media print {
+  body { background:none; margin:0; padding-top:0; }
+  .toolbar,.no-print { display:none!important; }
+  .page { margin:0; box-shadow:none; page-break-after:always; page-break-inside:avoid; width:210mm; min-height:297mm; }
+  .page:last-child { page-break-after:auto; }
+  @page { size:A4; margin:0; }
+}
+
+/* ═══ EDITING STATE ═══ */
+.editing [contenteditable="true"] { outline:2px dashed var(--b3); outline-offset:2px; border-radius:3px; cursor:text; }
+.editing [contenteditable="true"]:focus { outline:2px solid var(--b2); background:rgba(212,168,0,.08); }
+
+/* ═══ LOGO AREA ═══ */
+.logo-area { display:flex; justify-content:center; align-items:center; margin-bottom:14px; min-height:60px; }
+#school-logo { max-height:70px; max-width:180px; object-fit:contain; display:none; border-radius:8px; }
+#logo-placeholder {
+  display:none; border:2px dashed rgba(255,255,255,.5); border-radius:12px;
+  padding:10px 24px; cursor:pointer; color:rgba(255,255,255,.8);
+  font-family:'Nunito',sans-serif; font-size:12px; font-weight:700;
+  text-align:center; transition:.2s;
+}
+#logo-placeholder:hover { background:rgba(255,255,255,.1); }
+body.teacher-mode #logo-placeholder { display:block; }
+#school-logo.loaded { display:block; }
+
+/* ═══ COVER ═══ */
+.cover { background:linear-gradient(160deg,var(--b5) 0%,#fffde8 60%,var(--b5) 100%); display:flex; flex-direction:column; align-items:center; }
+.cover-banner { width:100%; background:linear-gradient(135deg,var(--b2) 0%,var(--b3) 60%,var(--b4) 100%); padding:28px 32px 44px; position:relative; clip-path:polygon(0 0,100% 0,100% 85%,50% 100%,0 85%); text-align:center; }
+.cover-banner .grade-badge { display:inline-block; background:var(--white); color:var(--b2); font-family:'Fredoka One',cursive; font-size:14px; padding:5px 20px; border-radius:50px; margin-bottom:12px; letter-spacing:1px; box-shadow:0 2px 8px rgba(0,0,0,.12); }
+.cover-banner h1 { font-family:'Fredoka One',cursive; font-size:44px; color:var(--white); line-height:1.1; text-shadow:0 2px 8px rgba(80,50,0,.25); margin-bottom:8px; }
+.cover-banner .subtitle { font-size:15px; color:rgba(255,255,255,.92); font-weight:600; }
+.cover-stars { display:flex; gap:6px; justify-content:center; margin-top:10px; }
+.cover-body { padding:20px 36px 0; width:100%; flex:1; display:flex; flex-direction:column; align-items:center; }
+.cover-illustration { display:flex; gap:14px; justify-content:center; margin-bottom:16px; width:100%; }
+.cover-card { background:var(--b5); border-radius:var(--radius); padding:12px 14px; text-align:center; flex:1; border:2.5px solid var(--b4); box-shadow:var(--shadow); }
+.cover-card .icon { font-size:30px; display:block; margin-bottom:4px; }
+.cover-card p { font-size:12px; font-weight:800; color:var(--muted); }
+.info-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; margin-top:14px; }
+.info-field { background:var(--b5); border:2px dashed var(--b3); border-radius:var(--radius-sm); padding:10px 14px; }
+.info-field label { display:block; font-size:11px; font-weight:800; color:var(--b2); text-transform:uppercase; letter-spacing:.8px; margin-bottom:4px; }
+.info-input { border:none; border-bottom:2px solid var(--b3); background:transparent; width:100%; height:24px; font-family:'Nunito',sans-serif; font-size:13px; font-weight:700; color:var(--text); outline:none; }
+.cover-footer { width:100%; background:linear-gradient(90deg,var(--b2),var(--b3)); padding:10px 32px; margin-top:auto; display:flex; justify-content:space-between; align-items:center; }
+.cover-footer span { color:var(--white); font-size:13px; font-weight:700; }
+
+/* ═══ PAGE HEADERS ═══ */
+.page-header-strip { background:linear-gradient(135deg,var(--b2),var(--b3)); padding:20px 36px; display:flex; align-items:center; gap:16px; }
+.page-header-strip .sec-num { background:var(--white); color:var(--b2); font-family:'Fredoka One',cursive; font-size:26px; width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 8px rgba(0,0,0,.15); flex-shrink:0; }
+.page-header-strip h2 { font-family:'Fredoka One',cursive; color:var(--white); font-size:24px; line-height:1.2; }
+.page-header-strip .sub { color:rgba(255,255,255,.85); font-size:13px; font-weight:600; }
+.page-content { padding:22px 36px; }
+.wave-banner { position:relative; background:linear-gradient(135deg,var(--b2) 0%,var(--b3) 100%); padding:22px 36px 46px; overflow:hidden; }
+.wave-banner::after { content:""; position:absolute; bottom:-2px; left:0; right:0; height:38px; background:var(--b6); clip-path:ellipse(55% 100% at 50% 100%); }
+.wave-banner .banner-content { position:relative; z-index:1; display:flex; align-items:center; gap:16px; }
+.wave-banner .banner-icon { font-size:38px; background:rgba(255,255,255,.25); width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.wave-banner .sec-label { font-size:11px; font-weight:800; color:rgba(255,255,255,.8); text-transform:uppercase; letter-spacing:1.5px; }
+.wave-banner h2 { font-family:'Fredoka One',cursive; color:var(--white); font-size:25px; line-height:1.2; }
+.section-page { padding:0; background:var(--b6); }
+.section-content { padding:16px 36px; }
+
+/* ═══ COMPONENTS ═══ */
+.how-intro { background:var(--b5); border-left:5px solid var(--b3); border-radius:0 var(--radius-sm) var(--radius-sm) 0; padding:12px 15px; font-size:13px; margin-bottom:16px; color:var(--muted); font-weight:600; }
+.toc-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:16px; }
+.toc-item { background:var(--white); border:2px solid var(--b4); border-radius:var(--radius-sm); padding:8px 11px; display:flex; align-items:center; gap:8px; box-shadow:0 2px 6px rgba(0,0,0,.06); }
+.toc-item .toc-icon { font-size:19px; flex-shrink:0; }
+.toc-item strong { font-size:11px; color:var(--b2); display:block; }
+.toc-item span { font-size:11px; color:var(--text); }
+.think-bubble { background:linear-gradient(135deg,var(--b4),var(--b5)); border-radius:var(--radius); padding:14px 18px; position:relative; border:2px solid var(--b3); margin-bottom:14px; }
+.think-bubble::before { content:"💬"; position:absolute; top:-13px; left:17px; font-size:22px; }
+.think-bubble h3 { font-family:'Fredoka One',cursive; color:var(--b1); font-size:15px; margin-bottom:6px; margin-top:3px; }
+.think-bubble p { font-size:12.5px; color:var(--text); margin-bottom:2px; }
+.mindset-box { background:linear-gradient(135deg,var(--b1),var(--b2)); border-radius:var(--radius); padding:16px 20px; color:var(--white); margin-bottom:12px; position:relative; overflow:hidden; }
+.mindset-box::before { content:"💡"; position:absolute; right:16px; top:12px; font-size:40px; opacity:.18; }
+.mindset-box h3 { font-family:'Fredoka One',cursive; font-size:16px; margin-bottom:8px; }
+.mindset-box p { font-size:12.5px; opacity:.92; margin-bottom:3px; }
+.mindset-box .highlight { font-weight:800; font-size:13px; opacity:1; }
+.feature-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
+.feature-card { background:var(--white); border:2px solid var(--b4); border-radius:var(--radius-sm); padding:12px; box-shadow:0 2px 8px rgba(0,0,0,.07); }
+.feature-card .fc-icon { font-size:22px; margin-bottom:4px; display:block; }
+.feature-card strong { font-size:12px; color:var(--b2); display:block; margin-bottom:2px; }
+.feature-card p { font-size:11.5px; color:var(--muted); }
+
+/* skill tables */
+.skill-block { margin-bottom:16px; }
+.skill-header { background:linear-gradient(90deg,var(--b2),var(--b3)); border-radius:var(--radius-sm) var(--radius-sm) 0 0; padding:8px 13px; display:flex; align-items:center; gap:8px; color:var(--white); font-family:'Fredoka One',cursive; font-size:15px; }
+.skill-header .sh-icon { font-size:18px; }
+.skill-table-wrap { border-radius:0 0 var(--radius-sm) var(--radius-sm); overflow:hidden; border:2px solid var(--b4); border-top:none; }
+.skill-table { width:100%; border-collapse:collapse; }
+.skill-table th { background:var(--b4); color:var(--b1); font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.7px; padding:6px 10px; text-align:left; }
+.skill-table td { padding:7px 10px; font-size:12px; border-bottom:1px solid var(--b4); vertical-align:top; }
+.skill-table tr:nth-child(even) td { background:var(--b5); }
+.skill-table tr:last-child td { border-bottom:none; }
+.skill-table td:first-child { font-weight:800; color:var(--b1); width:28%; border-right:2px solid var(--b4); }
+
+/* grammar tables */
+.gram-table-wrap { border-radius:0 0 var(--radius-sm) var(--radius-sm); overflow:hidden; border:2px solid var(--b4); border-top:none; }
+.gram-table { width:100%; border-collapse:collapse; }
+.gram-table th { background:var(--b4); color:var(--b1); font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.7px; padding:6px 10px; text-align:left; }
+.gram-table td { padding:7px 10px; font-size:11.5px; border-bottom:1px solid var(--b4); vertical-align:top; }
+.gram-table tr:nth-child(even) td { background:var(--b5); }
+.gram-table tr:last-child td { border-bottom:none; }
+.gram-table td:first-child { font-weight:800; color:var(--b1); width:24%; border-right:2px solid var(--b4); }
+.gram-table td:nth-child(2) { width:38%; border-right:2px solid var(--b4); }
+.gram-table em { color:var(--b2); font-style:italic; }
+.correct { color:#2d7a3a; font-weight:700; }
+.wrong { color:#c0392b; text-decoration:line-through; }
+
+/* essay cards */
+.essay-grid { display:flex; flex-direction:column; gap:6px; margin-bottom:12px; }
+.essay-card { display:flex; align-items:stretch; border-radius:var(--radius-sm); overflow:hidden; border:2px solid var(--b4); box-shadow:0 2px 6px rgba(0,0,0,.07); }
+.essay-card .ec-icon { background:linear-gradient(135deg,var(--b2),var(--b3)); color:var(--white); font-size:20px; width:48px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.essay-card .ec-body { padding:8px 12px; background:var(--white); flex:1; }
+.essay-card .ec-label { font-family:'Fredoka One',cursive; font-size:13px; color:var(--b2); }
+.essay-card .ec-desc { font-size:11.5px; color:var(--muted); margin-top:2px; }
+
+/* vocab / mla */
+.vocab-wrap { border-radius:var(--radius-sm); overflow:hidden; border:2px solid var(--b4); }
+.vocab-table { width:100%; border-collapse:collapse; }
+.vocab-table th { background:var(--b2); color:var(--white); padding:7px 12px; font-size:11px; text-align:left; font-weight:800; }
+.vocab-table td { padding:6px 12px; font-size:12px; border-bottom:1px solid var(--b4); }
+.vocab-table tr:nth-child(even) td { background:var(--b5); }
+.vocab-table td:first-child { font-weight:800; color:var(--b1); width:26%; }
+.mla-wrap { border-radius:var(--radius-sm); overflow:hidden; border:2px solid var(--b4); margin-bottom:11px; }
+.mla-table { width:100%; border-collapse:collapse; }
+.mla-table th { background:var(--b2); color:var(--white); padding:7px 12px; font-size:11px; text-align:left; font-weight:800; }
+.mla-table td { padding:7px 12px; font-size:12px; border-bottom:1px solid var(--b4); }
+.mla-table tr:nth-child(even) td { background:var(--b5); }
+.mla-table td:first-child { font-weight:700; color:var(--b1); width:46%; }
+.cite-box { background:var(--b5); border-left:5px solid var(--b3); border-radius:0 var(--radius-sm) var(--radius-sm) 0; padding:10px 14px; font-size:12px; margin-bottom:8px; font-style:italic; color:var(--text); }
+.cite-box strong { font-style:normal; color:var(--b2); font-size:10.5px; display:block; margin-bottom:2px; }
+.rules-list { list-style:none; margin:0; padding:0; }
+.rules-list li { display:flex; gap:8px; align-items:flex-start; padding:6px 0; border-bottom:1px dashed var(--b4); font-size:12px; }
+.rules-list li::before { content:"✓"; background:var(--b3); color:var(--white); font-weight:800; font-size:10px; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+
+/* ═══ INTERACTIVE WRITE AREAS ═══ */
+.write-area {
+  width:100%; border:none; outline:none; resize:none;
+  background:repeating-linear-gradient(to bottom, transparent 0px, transparent 26px, var(--b3) 26px, var(--b3) 27.5px);
+  line-height:27.5px; padding:0 6px 4px;
+  font-family:'Nunito',sans-serif; font-size:12.5px; font-weight:600;
+  color:var(--text); min-height:110px; display:block;
+}
+.write-area:focus { outline:none; }
+.write-area-sm {
+  width:100%; border:none; outline:none; resize:none;
+  background:repeating-linear-gradient(to bottom, transparent 0px, transparent 26px, var(--b3) 26px, var(--b3) 27.5px);
+  line-height:27.5px; padding:0 6px 4px;
+  font-family:'Nunito',sans-serif; font-size:12.5px; font-weight:600;
+  color:var(--text); min-height:82px; display:block;
+}
+.act-area {
+  width:100%; border:none; outline:none; resize:none;
+  background:repeating-linear-gradient(to bottom, transparent 0px, transparent 25px, var(--b3) 25px, var(--b3) 26px);
+  line-height:26px; padding:0 6px 4px;
+  font-family:'Nunito',sans-serif; font-size:12px; font-weight:600;
+  color:var(--text); min-height:92px; display:block;
+}
+
+/* ═══ CHECKLIST ═══ */
+.checklist { list-style:none; margin:0; padding:0; }
+.checklist li { display:flex; align-items:flex-start; gap:10px; padding:7px 10px; border-radius:var(--radius-sm); margin-bottom:4px; background:var(--white); border:2px solid var(--b4); font-size:12px; font-weight:600; }
+.ck-box {
+  width:20px; height:20px; border-radius:5px; border:2.5px solid var(--b3);
+  flex-shrink:0; margin-top:1px; appearance:none; -webkit-appearance:none;
+  background:var(--white); cursor:pointer; position:relative;
+}
+.ck-box:checked { background:var(--b3); border-color:var(--b2); }
+.ck-box:checked::after { content:'✓'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:white; font-size:12px; font-weight:900; }
+
+/* ═══ ACTIVITIES ═══ */
+.activity-card { border-radius:var(--radius); overflow:hidden; border:2px solid var(--b4); margin-bottom:12px; box-shadow:var(--shadow); }
+.activity-header { background:linear-gradient(90deg,var(--b2),var(--b3)); padding:10px 15px; display:flex; align-items:center; gap:10px; justify-content:space-between; }
+.activity-header .ah-left { display:flex; align-items:center; gap:10px; }
+.activity-header .ah-icon { font-size:24px; }
+.activity-header strong { color:var(--white); font-family:'Fredoka One',cursive; font-size:14px; display:block; }
+.activity-header span { color:rgba(255,255,255,.85); font-size:11px; }
+.activity-stars span { font-size:14px; }
+.activity-body { background:var(--b6); padding:12px 15px; }
+.activity-body p { font-size:12px; color:var(--muted); margin-bottom:8px; }
+
+/* ═══ MISC ═══ */
+.challenge-box { background:linear-gradient(135deg,var(--b4),var(--b5)); border-radius:var(--radius); padding:13px 17px; border:2px solid var(--b3); margin-bottom:12px; }
+.challenge-box .ch-title { font-family:'Fredoka One',cursive; color:var(--b1); font-size:14px; margin-bottom:6px; }
+.challenge-box p { font-size:12px; color:var(--text); margin-bottom:3px; }
+.quick-tip { background:var(--b4); border-radius:var(--radius-sm); padding:10px 14px; margin-top:8px; display:flex; gap:8px; align-items:flex-start; }
+.quick-tip p { font-size:11.5px; color:var(--muted); margin-top:2px; }
+.closing-page { background:linear-gradient(160deg,var(--b2) 0%,var(--b3) 50%,var(--b4) 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; padding:50px 40px; text-align:center; min-height:297mm; }
+.closing-circle { width:108px; height:108px; border-radius:50%; background:rgba(255,255,255,.2); display:flex; align-items:center; justify-content:center; font-size:54px; margin-bottom:22px; border:3px solid rgba(255,255,255,.3); }
+.closing-page h2 { font-family:'Fredoka One',cursive; color:var(--white); font-size:38px; margin-bottom:12px; }
+.closing-page p { color:rgba(255,255,255,.92); font-size:14px; max-width:320px; margin:0 auto 16px; line-height:1.7; }
+.closing-badge { display:inline-block; background:var(--white); color:var(--b2); font-family:'Fredoka One',cursive; font-size:17px; padding:9px 26px; border-radius:50px; box-shadow:0 4px 16px rgba(0,0,0,.15); }
+.confetti { font-size:26px; margin-top:20px; letter-spacing:4px; }
+.page-footer { position:absolute; bottom:0; left:0; right:0; background:linear-gradient(90deg,var(--b2),var(--b3)); padding:6px 36px; display:flex; justify-content:space-between; align-items:center; }
+.page-footer span { color:rgba(255,255,255,.85); font-size:10.5px; font-weight:700; }
+.mb8{margin-bottom:8px} .mb12{margin-bottom:12px} .mb14{margin-bottom:14px} .mb16{margin-bottom:16px} .pb60{padding-bottom:60px}
+h3.sub-heading { font-family:'Fredoka One',cursive; color:var(--b2); font-size:14.5px; margin-bottom:8px; display:flex; align-items:center; gap:7px; }
+.divider { border:none; border-top:2px dashed var(--b4); margin:10px 0; }
+</style>
+</head>
+<body class="">
+
+<!-- ══════════════════ TOOLBAR ══════════════════ -->
+<div class="toolbar no-print" id="mainToolbar">
+
+  <!-- Tab strip -->
+  <div class="tab-strip">
+    <button class="tab-btn active" id="tabStudent" onclick="switchTab('student')">👤 Student Mode</button>
+    <button class="tab-btn" id="tabTeacher" onclick="switchTab('teacher')">🔧 Teacher Customise</button>
+  </div>
+
+  <!-- Student panel -->
+  <div class="toolbar-panel active" id="panelStudent">
+    <button class="tb-btn tb-btn-primary" onclick="downloadStudentWork()">📥 Download My Booklet</button>
+    <button class="tb-btn tb-btn-secondary" onclick="emailTeacher()">📧 Email My Teacher</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn tb-btn-danger" onclick="clearProgress()">🗑️ Clear My Answers</button>
+    <span class="save-indicator" id="saveIndicator">💾 Auto-saved</span>
+  </div>
+
+  <!-- Teacher panel -->
+  <div class="toolbar-panel" id="panelTeacher">
+    <button class="tb-btn tb-btn-edit" id="editBtn" onclick="toggleEdit()">✏️ Edit Text</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn tb-btn-secondary" onclick="document.getElementById('logoInput').click()">🏫 Upload Logo</button>
+    <button class="tb-btn tb-btn-secondary" onclick="removeLogo()">✕ Remove Logo</button>
+    <input type="file" id="logoInput" accept="image/*" style="display:none" onchange="uploadLogo(this)">
+    <div class="tb-sep"></div>
+    <span class="tb-label">Teacher email:</span>
+    <input type="email" class="tb-input" id="teacherEmail" placeholder="your@email.com" style="width:180px;">
+    <button class="tb-btn tb-btn-secondary" onclick="saveTeacherEmail()">💾 Save</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn tb-btn-primary" onclick="saveDistributableVersion()">📤 Save Student Version</button>
+    <button class="tb-btn tb-btn-secondary" onclick="window.print()">🖨️ Print / PDF</button>
+  </div>
+</div>
+
+<!-- ══════════════════ JAVASCRIPT ══════════════════ -->
+<script>
+const SK = 'ssb_g6_v1';
+let editMode = false;
+let saveTimer = null;
+
+/* ─── Tab switching ─── */
+function switchTab(tab) {
+  const isTeacher = tab === 'teacher';
+  document.getElementById('tabStudent').classList.toggle('active', !isTeacher);
+  document.getElementById('tabTeacher').classList.toggle('active', isTeacher);
+  document.getElementById('panelStudent').classList.toggle('active', !isTeacher);
+  document.getElementById('panelTeacher').classList.toggle('active', isTeacher);
+  document.body.classList.toggle('teacher-mode', isTeacher);
+  if (!isTeacher && editMode) toggleEdit(); // lock edits when leaving teacher tab
+  // Restore teacher email
+  const te = localStorage.getItem(SK + '_teacherEmail');
+  if (te) document.getElementById('teacherEmail').value = te;
+}
+
+/* ─── Edit mode ─── */
+function toggleEdit() {
+  editMode = !editMode;
+  const btn = document.getElementById('editBtn');
+  btn.classList.toggle('on', editMode);
+  btn.textContent = editMode ? '🔒 Lock Editing' : '✏️ Edit Text';
+  document.body.classList.toggle('editing', editMode);
+  document.querySelectorAll('.ez').forEach(el => {
+    el.contentEditable = editMode ? 'true' : 'false';
+  });
+}
+
+/* ─── Logo ─── */
+function uploadLogo(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const src = e.target.result;
+    const img = document.getElementById('school-logo');
+    img.src = src;
+    img.classList.add('loaded');
+    document.getElementById('logo-placeholder').style.display = 'none';
+    localStorage.setItem(SK + '_logo', src);
+  };
+  reader.readAsDataURL(file);
+}
+function removeLogo() {
+  const img = document.getElementById('school-logo');
+  img.src = '';
+  img.classList.remove('loaded');
+  localStorage.removeItem(SK + '_logo');
+}
+
+/* ─── Teacher email ─── */
+function saveTeacherEmail() {
+  const e = document.getElementById('teacherEmail').value.trim();
+  if (e) localStorage.setItem(SK + '_teacherEmail', e);
+  flashSave('✅ Email saved!');
+}
+
+/* ─── Collect / Restore ─── */
+function collectData() {
+  const d = {};
+  document.querySelectorAll('[data-id]').forEach(el => {
+    if (el.tagName === 'TEXTAREA' || (el.tagName === 'INPUT' && el.type === 'text') || (el.tagName === 'INPUT' && el.type === 'email')) {
+      d[el.dataset.id] = el.value;
+    } else if (el.tagName === 'INPUT' && el.type === 'checkbox') {
+      d[el.dataset.id] = el.checked;
+    }
+  });
+  return d;
+}
+function restoreData(d) {
+  document.querySelectorAll('[data-id]').forEach(el => {
+    const v = d[el.dataset.id];
+    if (v === undefined) return;
+    if (el.tagName === 'TEXTAREA' || (el.tagName === 'INPUT' && el.type === 'text')) {
+      el.value = v;
+    } else if (el.tagName === 'INPUT' && el.type === 'checkbox') {
+      el.checked = !!v;
+    }
+  });
+}
+
+/* ─── Auto-save ─── */
+function triggerAutoSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => {
+    localStorage.setItem(SK + '_progress', JSON.stringify(collectData()));
+    flashSave('💾 Saved');
+  }, 800);
+}
+function flashSave(msg) {
+  const el = document.getElementById('saveIndicator');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.add('flash');
+  setTimeout(() => { el.classList.remove('flash'); el.textContent = '💾 Auto-saved'; }, 2000);
+}
+
+/* ─── Download student work ─── */
+function downloadStudentWork() {
+  const nameEl = document.querySelector('[data-id="name"]');
+  const studentName = nameEl && nameEl.value ? nameEl.value.trim() : 'Student';
+  const html = '<!DOCTYPE html>' + document.documentElement.outerHTML;
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'Summer_Booklet_Grade6_' + studentName.replace(/\s+/g,'_') + '.html';
+  a.click();
+}
+
+/* ─── Save distributable (teacher exports clean student version) ─── */
+function saveDistributableVersion() {
+  if (editMode) toggleEdit();
+  switchTab('student');
+  setTimeout(() => {
+    const html = '<!DOCTYPE html>' + document.documentElement.outerHTML;
+    const blob = new Blob([html], {type:'text/html'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'Summer_Skills_Booklet_Grade6_STUDENT.html';
+    a.click();
+  }, 200);
+}
+
+/* ─── Email teacher ─── */
+function emailTeacher() {
+  const teacherEmail = localStorage.getItem(SK + '_teacherEmail') || '';
+  const nameEl = document.querySelector('[data-id="name"]');
+  const studentName = nameEl && nameEl.value ? nameEl.value.trim() : 'A student';
+  const subject = encodeURIComponent(studentName + ' — Grade 6 Summer Skills Booklet');
+  const body = encodeURIComponent('Dear Teacher,\n\nPlease find my completed Summer Skills Booklet attached.\n\nBest,\n' + studentName);
+  if (!teacherEmail) {
+    alert('Your teacher has not set up their email address yet. Please ask them to add it via the Teacher Customise tab.');
+    return;
+  }
+  window.location.href = 'mailto:' + teacherEmail + '?subject=' + subject + '&body=' + body;
+}
+
+/* ─── Clear progress ─── */
+function clearProgress() {
+  if (!confirm('Clear all your answers? This cannot be undone.')) return;
+  document.querySelectorAll('[data-id]').forEach(el => {
+    if (el.tagName === 'TEXTAREA' || (el.tagName === 'INPUT' && el.type === 'text')) el.value = '';
+    else if (el.tagName === 'INPUT' && el.type === 'checkbox') el.checked = false;
+  });
+  localStorage.removeItem(SK + '_progress');
+  flashSave('🗑️ Cleared');
+}
+
+/* ─── Init on load ─── */
+document.addEventListener('DOMContentLoaded', () => {
+  // Mark editable elements
+  document.querySelectorAll('p, td, th, h1, h2, h3, .ec-label, .ec-desc, .ch-title, .subtitle, .grade-badge, .cover-card p, .sec-label').forEach(el => {
+    if (!el.closest('.toolbar') && el.textContent.trim().length > 0) {
+      el.classList.add('ez'); el.contentEditable = 'false';
+    }
+  });
+  document.querySelectorAll('.cover-footer span, .page-footer span').forEach(el => {
+    el.classList.add('ez'); el.contentEditable = 'false';
+  });
+
+  // Restore saved progress
+  const saved = localStorage.getItem(SK + '_progress');
+  if (saved) { try { restoreData(JSON.parse(saved)); } catch(e){} }
+
+  // Restore logo
+  const logo = localStorage.getItem(SK + '_logo');
+  if (logo) {
+    const img = document.getElementById('school-logo');
+    img.src = logo; img.classList.add('loaded');
+  }
+
+  // Restore teacher email
+  const te = localStorage.getItem(SK + '_teacherEmail');
+  if (te) document.getElementById('teacherEmail').value = te;
+
+  // Wire auto-save
+  document.addEventListener('input', e => {
+    if (e.target.matches('[data-id]')) triggerAutoSave();
+  });
+  document.addEventListener('change', e => {
+    if (e.target.matches('[data-id]')) triggerAutoSave();
+  });
+});
+</script>
+
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║  PAGE 1 — COVER                                      ║
+     ╚══════════════════════════════════════════════════════╝ -->
+<div class="page cover">
+  <div class="cover-banner">
+    <!-- Logo area: placeholder visible in teacher mode, image when uploaded -->
+    <div class="logo-area">
+      <img id="school-logo" alt="School Logo" src="data:image/png;base64,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" class="loaded">
+      <div id="logo-placeholder" onclick="document.getElementById('logoInput').click()">
+        🏫 Click here to upload your school logo
+      </div>
+    </div>
+    <div class="grade-badge ez" contenteditable="false">✦ ENGLISH LANGUAGE ARTS ✦</div>
+    <h1 class="ez" contenteditable="false">Summer Skills<br>Booklet</h1>
+    <p class="subtitle ez" contenteditable="false">Grade 5 &nbsp;→&nbsp; Grade 6 &nbsp;|&nbsp; Your summer guide to reading, writing &amp; thinking bigger!</p>
+    <div class="cover-stars"><span>⭐</span><span>📚</span><span>✏️</span><span>🌟</span><span>⭐</span></div>
+  </div>
+
+  <div class="cover-body">
+    <div class="cover-illustration" style="margin-top:18px;">
+      <div class="cover-card"><span class="icon">📖</span><p class="ez" contenteditable="false">Read Deeper</p></div>
+      <div class="cover-card"><span class="icon">✏️</span><p class="ez" contenteditable="false">Write Stronger</p></div>
+      <div class="cover-card"><span class="icon">💬</span><p class="ez" contenteditable="false">Think Critically</p></div>
+      <div class="cover-card"><span class="icon">🌟</span><p class="ez" contenteditable="false">Grow Bigger</p></div>
+    </div>
+
+    <div style="background:linear-gradient(90deg,var(--b4),var(--b5));border-radius:var(--radius);padding:12px 18px;width:100%;margin-top:14px;text-align:center;border:2px solid var(--b3);">
+      <p style="font-family:'Fredoka One',cursive;font-size:13.5px;color:var(--b1);" class="ez" contenteditable="false">"Every page you read this summer builds the thinker you'll be in September."</p>
+    </div>
+
+    <div style="width:100%;margin-top:16px;">
+      <p style="font-family:'Fredoka One',cursive;font-size:13.5px;color:var(--b2);margin-bottom:8px;" class="ez" contenteditable="false">👤 About Me</p>
+      <div class="info-grid">
+        <div class="info-field"><label>My Name</label><input type="text" class="info-input" data-id="name" placeholder="Write your name here"></div>
+        <div class="info-field"><label>My Current Grade</label><input type="text" class="info-input" data-id="grade-current" placeholder="Grade 5"></div>
+        <div class="info-field"><label>My Upcoming Grade</label><input type="text" class="info-input" data-id="grade-next" placeholder="Grade 6"></div>
+        <div class="info-field"><label>School Year</label><input type="text" class="info-input" data-id="school-year" placeholder="2026 – 2027"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-footer" style="margin-top:auto;">
+    <span class="ez" contenteditable="false">Common Core Standards — Grade 6</span>
+    <span class="ez" contenteditable="false">2026 – 2027</span>
+  </div>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║  PAGE 2 — HOW TO USE                                  ║
+     ╚══════════════════════════════════════════════════════╝ -->
+<div class="page" style="background:var(--b6);">
+  <div class="page-header-strip">
+    <div class="sec-num">📋</div>
+    <div><div class="sub">Before You Begin</div><h2 class="ez" contenteditable="false">How to Use This Booklet</h2></div>
+  </div>
+  <div class="page-content pb60">
+    <div class="how-intro">This booklet helps you get ready for Grade 6 before the school year starts. Work through it at your own pace — there's no rush! Come back to sections you find tricky, and try at least one activity at the end. 🐢</div>
+    <p style="font-family:'Fredoka One',cursive;color:var(--b2);font-size:14px;margin-bottom:8px;" class="ez" contenteditable="false">📚 Inside this booklet:</p>
+    <div class="toc-grid mb16">
+      <div class="toc-item"><span class="toc-icon">🚀</span><div><strong>Section 1</strong><span>What's New in Grade 6?</span></div></div>
+      <div class="toc-item"><span class="toc-icon">📖</span><div><strong>Section 2</strong><span>Key Reading &amp; Writing Skills</span></div></div>
+      <div class="toc-item"><span class="toc-icon">✏️</span><div><strong>Section 3</strong><span>Essay Writing Vocabulary</span></div></div>
+      <div class="toc-item"><span class="toc-icon">📝</span><div><strong>Section 4</strong><span>MLA Format &amp; Citations</span></div></div>
+      <div class="toc-item"><span class="toc-icon">💡</span><div><strong>Section 5</strong><span>Word Power Vocabulary</span></div></div>
+      <div class="toc-item"><span class="toc-icon">🔤</span><div><strong>Section 6</strong><span>Grammar (CCSS L.6.1)</span></div></div>
+      <div class="toc-item"><span class="toc-icon">🔡</span><div><strong>Section 7</strong><span>Punctuation (CCSS L.6.2)</span></div></div>
+      <div class="toc-item"><span class="toc-icon">✅</span><div><strong>Section 8</strong><span>Self-Check: Am I Ready?</span></div></div>
+      <div class="toc-item" style="grid-column:1/-1;"><span class="toc-icon">🎯</span><div><strong>Section 9</strong><span>Fun Summer Activities to Try</span></div></div>
+    </div>
+    <div class="think-bubble mb12">
+      <h3 class="ez" contenteditable="false">Before you start — think about this!</h3>
+      <p class="ez" contenteditable="false">📕 What's one thing you're most excited about in Grade 6?</p>
+      <p class="ez" contenteditable="false">✏️ What skill do you most want to improve this year?</p>
+      <p class="ez" contenteditable="false">🌍 What's your favourite kind of book and why?</p>
+    </div>
+    <textarea class="write-area" data-id="how-reflect" placeholder="Write your thoughts here…"></textarea>
+  </div>
+  <div class="page-footer"><span class="ez" contenteditable="false">Summer Skills Booklet — Grade 5 → 6</span><span class="ez" contenteditable="false">How to Use</span></div>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║  PAGE 3 — SECTION 01: GETTING READY                   ║
+     ╚══════════════════════════════════════════════════════╝ -->
+<div class="page section-page">
+  <div class="wave-banner">
+    <div class="banner-content">
+      <div class="banner-icon">🚀</div>
+      <div><div class="sec-label ez" contenteditable="false">Section 01 — Getting Ready</div><h2 class="ez" contenteditable="false">What's New in Grade 6?</h2></div>
+    </div>
+  </div>
+  <div class="section-content pb60">
+    <div class="mindset-box mb12">
+      <h3 class="ez" contenteditable="false">💡 Your Grade 6 Mindset Shift</h3>
+      <p class="ez" contenteditable="false">In Grade 5, you <em>identified</em> the theme and main idea.</p>
+      <p class="highlight ez" contenteditable="false">In Grade 6, you explain HOW the author builds them.</p>
+      <p style="margin-top:6px;opacity:.85;font-size:12px;" class="ez" contenteditable="false">Ask yourself: <em>"Why did the author make this choice?"</em> — not just <em>"What is it?"</em></p>
+    </div>
+    <h3 class="sub-heading ez" contenteditable="false">🌟 What's exciting about next year:</h3>
+    <div class="feature-grid mb12">
+      <div class="feature-card"><span class="fc-icon">📚</span><strong>Read Deeper</strong><p class="ez" contenteditable="false">You'll analyse HOW authors write — their choices of words, structure, and perspective.</p></div>
+      <div class="feature-card"><span class="fc-icon">✏️</span><strong>Write Stronger</strong><p class="ez" contenteditable="false">Your essays will have a clear thesis, TEA paragraphs, and a strong counter-argument.</p></div>
+      <div class="feature-card"><span class="fc-icon">💬</span><strong>Talk It Out</strong><p class="ez" contenteditable="false">Class discussions count — you'll share ideas and back them up with evidence from the text.</p></div>
+      <div class="feature-card"><span class="fc-icon">🤔</span><strong>Word Power</strong><p class="ez" contenteditable="false">You'll explore connotation — the emotional meaning behind words, beyond the dictionary.</p></div>
+    </div>
+    <div class="think-bubble mb10">
+      <h3 class="ez" contenteditable="false">Let's Talk!</h3>
+      <p class="ez" contenteditable="false">📕 What's one thing you're most excited about in Grade 6?</p>
+      <p class="ez" contenteditable="false">✏️ What skill do you most want to improve this year?</p>
+      <p class="ez" contenteditable="false">🌍 What's your favourite kind of book and why?</p>
+    </div>
+    <textarea class="write-area" data-id="s01-talk" placeholder="Write your ideas here…"></textarea>
+  </div>
+  <div class="page-footer"><span class="ez" contenteditable="false">Summer Skills Booklet — Grade 5 → 6</span><span class="ez" contenteditable="false">Section 01 — Getting Ready</span></div>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║  PAGE 4 — SECTION 02: READING & WRITING (Part 1)     ║
+     ╚══════════════════════════════════════════════════════╝ -->
+<div class="page section-page">
+  <div class="wave-banner">
+    <div class="banner-content">
+      <div class="banner-icon">📖</div>
+      <div><div class="sec-label ez" contenteditable="false">Section 02 — Reading &amp; Writing</div><h2 class="ez" contenteditable="false">Key Skills for the New Grade</h2></div>
+    </div>
+  </div>
+  <div class="section-content pb60">
+    <div class="skill-block mb12">
+      <div class="skill-header"><span class="sh-icon">📖</span> Reading Literature</div>
+      <div class="skill-table-wrap"><table class="skill-table">
+        <tbody><tr><th style="width:28%" class="ez" contenteditable="false">Skill</th><th class="ez" contenteditable="false">What It Means</th></tr>
+        <tr><td class="ez" contenteditable="false">Theme development</td><td class="ez" contenteditable="false">You don't just identify the theme — you trace how the author builds it across the whole story.</td></tr>
+        <tr><td class="ez" contenteditable="false">Dialogue &amp; character</td><td class="ez" contenteditable="false">The way a character speaks tells you a lot about who they are. What does their language reveal?</td></tr>
+        <tr><td class="ez" contenteditable="false">Point of view</td><td class="ez" contenteditable="false">Who is telling the story, and how does that change what the reader knows? A first-person narrator can only tell you what THEY see.</td></tr>
+        <tr><td class="ez" contenteditable="false">Word choice &amp; tone</td><td class="ez" contenteditable="false">Authors choose every word deliberately. Why THAT word, instead of a simpler one?</td></tr>
+        <tr><td class="ez" contenteditable="false">Comparing two stories</td><td class="ez" contenteditable="false">When two stories share a similar theme, what's the same? What's different? Why does it matter?</td></tr>
+      </tbody></table></div>
+    </div>
+    <div class="skill-block mb12">
+      <div class="skill-header"><span class="sh-icon">📰</span> Reading Informational Texts</div>
+      <div class="skill-table-wrap"><table class="skill-table">
+        <tbody><tr><th style="width:28%" class="ez" contenteditable="false">Skill</th><th class="ez" contenteditable="false">What It Means</th></tr>
+        <tr><td class="ez" contenteditable="false">Tracing an argument</td><td class="ez" contenteditable="false">Follow the author's reasoning: What is their claim? What evidence do they use? Is it convincing?</td></tr>
+        <tr><td class="ez" contenteditable="false">Evaluating sources</td><td class="ez" contenteditable="false">Not all sources are trustworthy! Ask: Who wrote it? When? Do they have expertise?</td></tr>
+        <tr><td class="ez" contenteditable="false">Counter-arguments</td><td class="ez" contenteditable="false">Strong writers bring up the other side and explain why their view is stronger.</td></tr>
+        <tr><td class="ez" contenteditable="false">Text structure</td><td class="ez" contenteditable="false">HOW a text is organised (cause/effect, compare/contrast) affects how convincing it is.</td></tr>
+        <tr><td class="ez" contenteditable="false">Comparing two authors</td><td class="ez" contenteditable="false">Two writers can cover the same topic but present it very differently. Can you spot why?</td></tr>
+      </tbody></table></div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-header"><span class="sh-icon">✏️</span> Writing</div>
+      <div class="skill-table-wrap"><table class="skill-table">
+        <tbody><tr><th style="width:28%" class="ez" contenteditable="false">Skill</th><th class="ez" contenteditable="false">What It Means</th></tr>
+        <tr><td class="ez" contenteditable="false">Counter-argument</td><td class="ez" contenteditable="false">A strong argument addresses the OTHER side first, then explains why your view is stronger.</td></tr>
+        <tr><td class="ez" contenteditable="false">Types of evidence</td><td class="ez" contenteditable="false">Mix your evidence: use quotes, statistics, anecdotes, and examples.</td></tr>
+        <tr><td class="ez" contenteditable="false">Specific thesis</td><td class="ez" contenteditable="false">Your thesis must be ARGUABLE. 'Friendship is important' is NOT a thesis. 'The author uses conflict to show loyalty is more valuable than popularity' IS a thesis.</td></tr>
+        <tr><td class="ez" contenteditable="false">Transitions</td><td class="ez" contenteditable="false">Paragraphs shouldn't just stop — each one should lead smoothly into the next.</td></tr>
+        <tr><td class="ez" contenteditable="false">Revising for strength</td><td class="ez" contenteditable="false">Ask yourself: Is every paragraph connected to my thesis? Is my evidence the BEST I could use?</td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+  <div class="page-footer"><span class="ez" contenteditable="false">Summer Skills Booklet — Grade 5 → 6</span><span class="ez" contenteditable="false">Section 02 — Reading &amp; Writing</span></div>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║  PAGE 5 — SECTION 02 cont. + SECTION 03              ║
+     ╚══════════════════════════════════════════════════════╝ -->
+<div class="page section-page">
+  <div class="page-header-strip">
+    <div class="sec-num">02</div>
+    <div><div class="sub">Section 02 — continued</div><h2 class="ez" contenteditable="false">Speaking, Listening &amp; Language</h2></div>
+  </div>
+  <div class="section-content" style="padding-bottom:12px;">
+    <div class="skill-block mb10">
+      <div class="skill-header"><span class="sh-icon">🗣️</span> Speaking &amp; Listening</div>
+      <div class="skill-table-wrap"><table class="skill-table">
+        <tbody><tr><th style="width:28%" class="ez" contenteditable="false">Skill</th><th class="ez" contenteditable="false">What It Means</th></tr>
+        <tr><td class="ez" contenteditable="false">Using evidence</td><td class="ez" contenteditable="false">Don't just share your opinion — say WHERE in the text you found your evidence.</td></tr>
+        <tr><td class="ez" contenteditable="false">Building on ideas</td><td class="ez" contenteditable="false">Instead of starting a new topic, respond to what someone just said: <em>'I'd like to add to that…'</em></td></tr>
+        <tr><td class="ez" contenteditable="false">Challenging politely</td><td class="ez" contenteditable="false">You CAN disagree! Try: <em>'That's interesting, but have you considered…'</em></td></tr>
+        <tr><td class="ez" contenteditable="false">Formal vs. informal</td><td class="ez" contenteditable="false">Talking to a friend is different from presenting to your class. Practise switching between the two.</td></tr>
+      </tbody></table></div>
+    </div>
+    <div class="skill-block">
+      <div class="skill-header"><span class="sh-icon">🤔</span> Language</div>
+      <div class="skill-table-wrap"><table class="skill-table">
+        <tbody><tr><th style="width:28%" class="ez" contenteditable="false">Skill</th><th class="ez" contenteditable="false">What It Means</th></tr>
+        <tr><td class="ez" contenteditable="false">Connotation vs. denotation</td><td class="ez" contenteditable="false">'Home' and 'house' mean the same thing, but feel very different. Every word has a literal meaning AND an emotional meaning.</td></tr>
+        <tr><td class="ez" contenteditable="false">Greek &amp; Latin roots</td><td class="ez" contenteditable="false"><em>'Bio'</em> means life. <em>'Graph'</em> means write. Learning roots helps you decode new words instantly.</td></tr>
+        <tr><td class="ez" contenteditable="false">Precise vocabulary</td><td class="ez" contenteditable="false">Upgrade vague words. Instead of 'said' try: insisted, whispered, argued, declared, snapped.</td></tr>
+        <tr><td class="ez" contenteditable="false">Active vs. passive voice</td><td class="ez" contenteditable="false">Active is more powerful: <em>'The author reveals the theme'</em> beats <em>'The theme is revealed by the author.'</em></td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+  <!-- Section 03 -->
+  <div>
+    <div style="background:linear-gradient(135deg,var(--b2),var(--b3));padding:13px 36px;display:flex;align-items:center;gap:13px;">
+      <div style="font-size:34px;background:rgba(255,255,255,.22);width:55px;height:55px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">✏️</div>
+      <div><div style="font-size:10px;font-weight:800;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:1.5px;">Section 03 — Essay Writing</div><div style="font-family:'Fredoka One',cursive;color:var(--white);font-size:21px;">Writing Vocabulary: Words to Know</div></div>
+    </div>
+  </div>
+  <div class="section-content pb60">
+    <div class="essay-grid">
+      <div class="essay-card"><div class="ec-icon">🎣</div><div class="ec-body"><div class="ec-label ez" contenteditable="false">HOOK</div><div class="ec-desc ez" contenteditable="false">Grab the reader's attention — a question, a surprising fact, or a bold statement. Never begin with <em>'In this essay I will…'</em>!</div></div></div>
+      <div class="essay-card"><div class="ec-icon">📋</div><div class="ec-body"><div class="ec-label ez" contenteditable="false">CONTEXT</div><div class="ec-desc ez" contenteditable="false">Give your reader background — tell them the title, author, and what the text is about.</div></div></div>
+      <div class="essay-card"><div class="ec-icon">🎯</div><div class="ec-body"><div class="ec-label ez" contenteditable="false">THESIS</div><div class="ec-desc ez" contenteditable="false">Your MAIN CLAIM: one specific, arguable sentence at the end of your introduction. The 'big promise' of your essay.</div></div></div>
+    </div>
+    <div style="background:linear-gradient(90deg,var(--b2),var(--b3));border-radius:var(--radius-sm);padding:6px 13px;margin:7px 0;text-align:center;"><span style="font-family:'Fredoka One',cursive;color:var(--white);font-size:14px;letter-spacing:2px;">☕ The TEA Paragraph Structure</span></div>
+    <div class="essay-grid">
+      <div class="essay-card"><div class="ec-icon">🗨️</div><div class="ec-body"><div class="ec-label ez" contenteditable="false">T — TOPIC SENTENCE</div><div class="ec-desc ez" contenteditable="false">Start every body paragraph with a clear argument. It must connect directly to your thesis.</div></div></div>
+      <div class="essay-card"><div class="ec-icon">📌</div><div class="ec-body"><div class="ec-label ez" contenteditable="false">E — EVIDENCE</div><div class="ec-desc ez" contenteditable="false">Include a quote or specific example. Introduce it first — never drop a quote in without context.</div></div></div>
+      <div class="essay-card"><div class="ec-icon">💡</div><div class="ec-body"><div class="ec-label ez" contenteditable="false">A — ANALYSIS</div><div class="ec-desc ez" contenteditable="false">Explain WHY your evidence matters. What does the word choice / image / event actually reveal?</div></div></div>
+      <div class="essay-card"><div class="ec-icon">✅</div><div class="ec-body"><div class="ec-label ez" contenteditable="false">CONCLUSION</div><div class="ec-desc ez" contenteditable="false">Restate your thesis in NEW words. Summarise your key arguments. End with a final thought.</div></div></div>
+    </div>
+  </div>
+  <div class="page-footer"><span class="ez" contenteditable="false">Summer Skills Booklet — Grade 5 → 6</span><span class="ez" contenteditable="false">Sections 02–03</span></div>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║  PAGE 6 — SECTION 04: MLA FORMAT                     ║
+     ╚══════════════════════════════════════════════════════╝ -->
+<div class="page section-page">
+  <div class="wave-banner">
+    <div class="banner-content">
+      <div class="banner-icon">📝</div>
+      <div><div class="sec-label ez" contenteditable="false">Section 04 — MLA Format</div><h2 class="ez" contenteditable="false">Citing Your Sources</h2></div>
+    </div>
+  </div>
+  <div class="section-content pb60">
+    <div class="how-intro mb12">MLA format is how academic writers present their work. Your teacher will expect it — so let's make it simple! 📐</div>
+    <h3 class="sub-heading ez" contenteditable="false">📄 Your MLA Heading — top-left of your first page</h3>
+    <div class="mla-wrap">
+      <table class="mla-table">
+        <tbody><tr><th class="ez" contenteditable="false">What to Write</th><th class="ez" contenteditable="false">Example</th></tr>
+        <tr><td class="ez" contenteditable="false">Your first and last name</td><td class="ez" contenteditable="false">Alex Johnson</td></tr>
+        <tr><td class="ez" contenteditable="false">Your teacher's name</td><td class="ez" contenteditable="false">Ms. Rodriguez</td></tr>
+        <tr><td class="ez" contenteditable="false">Your class name and period</td><td class="ez" contenteditable="false">English 6</td></tr>
+        <tr><td class="ez" contenteditable="false">The date (day month year)</td><td class="ez" contenteditable="false">15 June 2025</td></tr>
+      </tbody></table>
+    </div>
+    <h3 class="sub-heading ez" style="margin-top:12px;" contenteditable="false">🔤 In-Text Citations</h3>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:7px;" class="ez" contenteditable="false">At the end of a sentence with a quote, write the author's last name and page number in brackets before the full stop.</p>
+    <div class="cite-box mb8"><strong>📖 Novel or Article:</strong>The author reveals that "true friendship means being honest, even when it hurts" (Smith 42).</div>
+    <div class="cite-box mb12"><strong>📜 Poem (use line numbers):</strong>"Do not go gentle into that good night" (Thomas 1).</div>
+    <h3 class="sub-heading ez" contenteditable="false">📚 Works Cited — Format Examples</h3>
+    <div class="cite-box mb8"><strong>Book:</strong>Jones, Maria. <em>The Digital Age</em>. Penguin, 2019.</div>
+    <div class="cite-box mb8"><strong>Article:</strong>Ahmed, Sam. "Screen Time and Learning." <em>Education Weekly</em>, vol. 5, 2022, pp. 20–23.</div>
+    <div class="cite-box mb12"><strong>Website:</strong>Lee, Tom. "Digital Limits." <em>TeenLearning.org</em>, 5 Jan. 2024, www.teenlearning.org/limits.</div>
+    <h3 class="sub-heading ez" contenteditable="false">✅ Five Rules to Remember</h3>
+    <ul class="rules-list">
+      <li>Your essay title: centred at the top; not bold, not in quotes, not underlined.</li>
+      <li>Titles of full works (novels, films): italicised — e.g., <em>The Outsiders</em>.</li>
+      <li>Titles of short works (poems, articles): in "quotation marks".</li>
+      <li>Double-space everything; no extra spaces between paragraphs.</li>
+      <li>Works Cited: hanging indent (second line indented 0.5 inches, first line flush).</li>
+    </ul>
+  </div>
+  <div class="page-footer"><span class="ez" contenteditable="false">Summer Skills Booklet — Grade 5 → 6</span><span class="ez" contenteditable="false">Section 04 — MLA Format</span></div>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║  PAGE 7 — SECTION 05: WORD POWER                     ║
+     ╚══════════════════════════════════════════════════════╝ -->
+<div class="page section-page">
+  <div class="wave-banner">
+    <div class="banner-content">
+      <div class="banner-icon">💡</div>
+      <div><div class="sec-label ez" contenteditable="false">Section 05 — Word Power</div><h2 class="ez" contenteditable="false">Words to Know</h2></div>
+    </div>
+  </div>
+  <div class="section-content pb60">
+    <p style="font-size:12px;color:var(--muted);margin-bottom:10px;" class="ez" contenteditable="false">These are the key words your teacher will expect you to know AND USE. Don't just memorise them — try to use them in your writing this summer! ✨</p>
+    <div class="vocab-wrap mb12">
+      <table class="vocab-table">
+        <tbody><tr><th class="ez" contenteditable="false">Word</th><th class="ez" contenteditable="false">What It Means</th></tr>
+        <tr><td class="ez" contenteditable="false">theme</td><td class="ez" contenteditable="false">The BIG message or lesson of a story — what it's really about beneath the plot</td></tr>
+        <tr><td class="ez" contenteditable="false">connotation</td><td class="ez" contenteditable="false">The emotional feeling of a word, beyond its literal dictionary meaning</td></tr>
+        <tr><td class="ez" contenteditable="false">denotation</td><td class="ez" contenteditable="false">The literal, dictionary definition of a word — its 'official' meaning</td></tr>
+        <tr><td class="ez" contenteditable="false">diction</td><td class="ez" contenteditable="false">The specific words an author chooses — and why they chose them over other options</td></tr>
+        <tr><td class="ez" contenteditable="false">point of view</td><td class="ez" contenteditable="false">Who is narrating the story and what that narrator can and cannot know</td></tr>
+        <tr><td class="ez" contenteditable="false">counter-argument</td><td class="ez" contenteditable="false">The opposing view that a writer brings up — and then argues against</td></tr>
+        <tr><td class="ez" contenteditable="false">rebuttal</td><td class="ez" contenteditable="false">Your response to a counter-argument — the reason YOUR view is stronger</td></tr>
+        <tr><td class="ez" contenteditable="false">inference</td><td class="ez" contenteditable="false">A smart conclusion drawn from clues in the text — like a detective's deduction</td></tr>
+        <tr><td class="ez" contenteditable="false">nuance</td><td class="ez" contenteditable="false">The subtle shades of meaning that make the difference between almost-right and exactly-right</td></tr>
+        <tr><td class="ez" contenteditable="false">syntax</td><td class="ez" contenteditable="false">The way sentences are constructed — short and punchy vs. long and flowing</td></tr>
+      </tbody></table>
+    </div>
+    <div class="challenge-box">
+      <div class="ch-title ez" contenteditable="false">🏆 Vocabulary Challenge!</div>
+      <p class="ez" contenteditable="false">🖊️ Choose three words from the list. Use each one in a sentence about a book you've read.</p>
+      <p class="ez" contenteditable="false">💬 What's the difference between <em>'said'</em> and <em>'whispered'</em>? That difference is CONNOTATION!</p>
+      <p class="ez" contenteditable="false">⭐ Pick a favourite character. What THREE words best describe them, and why those specific words?</p>
+    </div>
+    <textarea class="write-area-sm" data-id="s05-vocab" placeholder="Write your vocabulary challenge answers here…" style="margin-top:8px;"></textarea>
+  </div>
+  <div class="page-footer"><span class="ez" contenteditable="false">Summer Skills Booklet — Grade 5 → 6</span><span class="ez" contenteditable="false">Section 05 — Word Power</span></div>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║  PAGE 8 — SECTION 06: GRAMMAR  (CCSS L.6.1)          ║
+     ╚══════════════════════════════════════════════════════╝ -->
+<div class="page section-page">
+  <div class="wave-banner">
+    <div class="banner-content">
+      <div class="banner-icon">🔤</div>
+      <div><div class="sec-label ez" contenteditable="false">Section 06 — Grammar Essentials</div><h2 class="ez" contenteditable="false">Grammar for Grade 6 <span style="font-size:13px;font-family:'Nunito',sans-serif;font-weight:700;opacity:.85;">(CCSS L.6.1)</span></h2></div>
+    </div>
+  </div>
+  <div class="section-content pb60">
+    <div class="how-intro mb10">In Grade 6, grammar focuses on <strong>pronouns</strong> — knowing which form to use and making sure they are clear, consistent, and correctly placed. 💪</div>
+
+    <div class="skill-block mb10">
+      <div class="skill-header"><span class="sh-icon">👤</span> Pronoun Case — Subjective, Objective &amp; Possessive</div>
+      <div class="gram-table-wrap"><table class="gram-table">
+        <tbody><tr><th class="ez" contenteditable="false">Case</th><th class="ez" contenteditable="false">When to Use It</th><th class="ez" contenteditable="false">Examples</th></tr>
+        <tr><td class="ez" contenteditable="false">Subjective<br><small>(doing the action)</small></td><td class="ez" contenteditable="false">Use when the pronoun is the <em>subject</em> of a verb.</td><td class="ez" contenteditable="false"><span class="correct">She</span> read the book. <span class="correct">He</span> and <span class="correct">I</span> went together.</td></tr>
+        <tr><td class="ez" contenteditable="false">Objective<br><small>(receiving the action)</small></td><td class="ez" contenteditable="false">Use when the pronoun is the object, or follows a preposition.</td><td class="ez" contenteditable="false">The teacher praised <span class="correct">him</span>. Between you and <span class="correct">me</span>…</td></tr>
+        <tr><td class="ez" contenteditable="false">Possessive<br><small>(shows ownership)</small></td><td class="ez" contenteditable="false">Shows something belongs to someone. <strong>No apostrophe needed!</strong></td><td class="ez" contenteditable="false"><span class="correct">Their</span> book. <span class="correct">Its</span> cover. <span class="correct">Our</span> class project.</td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="skill-block mb10">
+      <div class="skill-header"><span class="sh-icon">💥</span> Intensive Pronouns — Adding Emphasis</div>
+      <div class="gram-table-wrap"><table class="gram-table">
+        <tbody><tr><th class="ez" contenteditable="false">Pronouns</th><th class="ez" contenteditable="false">What They Do</th><th class="ez" contenteditable="false">Example</th></tr>
+        <tr><td class="ez" contenteditable="false">myself / yourself<br>himself / herself<br>ourselves / themselves</td><td class="ez" contenteditable="false">Adds emphasis. The sentence still makes sense without it — that's how you know it's intensive!</td><td class="ez" contenteditable="false">The author <span class="correct">herself</span> attended. I <span class="correct">myself</span> was surprised.</td></tr>
+        <tr><td class="ez" contenteditable="false">⚠️ Watch out!</td><td class="ez" contenteditable="false"><em>Myself</em> is NOT a polite substitute for <em>I</em> or <em>me</em>.</td><td class="ez" contenteditable="false"><span class="wrong">Give it to myself.</span> → <span class="correct">Give it to me.</span></td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="skill-block mb10">
+      <div class="skill-header"><span class="sh-icon">🔍</span> Vague Pronoun Reference — Be Specific!</div>
+      <div class="gram-table-wrap"><table class="gram-table">
+        <tbody><tr><th class="ez" contenteditable="false">Problem</th><th class="ez" contenteditable="false">Why It's Vague</th><th class="ez" contenteditable="false">Fix It</th></tr>
+        <tr><td class="ez" contenteditable="false">Unclear antecedent</td><td class="ez" contenteditable="false">The reader can't tell which noun the pronoun refers to.</td><td class="ez" contenteditable="false"><span class="wrong">Maya told Sofia that she won.</span> → <span class="correct">Maya told Sofia that Maya had won.</span></td></tr>
+        <tr><td class="ez" contenteditable="false">Broad reference</td><td class="ez" contenteditable="false">'This' or 'which' refers to a whole idea, not a specific noun.</td><td class="ez" contenteditable="false"><span class="wrong">She forgot her homework, which was embarrassing.</span> → <span class="correct">Forgetting her homework embarrassed her.</span></td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="quick-tip">
+      <span style="font-size:19px;">⚠️</span>
+      <div>
+        <strong style="font-size:12px;color:var(--b1);">Common Errors to Fix</strong>
+        <p class="ez" contenteditable="false"><span style="text-decoration:line-through;color:#c0392b;">Me and Jake presented first.</span> → <span style="color:#2d7a3a;font-weight:700;">Jake and I presented first.</span> (subjective case)</p>
+        <p class="ez" contenteditable="false"><span style="text-decoration:line-through;color:#c0392b;">Their going to the library.</span> → <span style="color:#2d7a3a;font-weight:700;">They're going to the library.</span> (their ≠ they're)</p>
+      </div>
+    </div>
+
+    <textarea class="write-area-sm" data-id="s06-grammar" placeholder="Write a sentence using each pronoun case correctly, then check it!" style="margin-top:8px;min-height:55px;"></textarea>
+  </div>
+  <div class="page-footer"><span class="ez" contenteditable="false">Summer Skills Booklet — Grade 5 → 6</span><span class="ez" contenteditable="false">Section 06 — Grammar (CCSS L.6.1)</span></div>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║  PAGE 9 — SECTION 07: PUNCTUATION  (CCSS L.6.2)     ║
+     ╚══════════════════════════════════════════════════════╝ -->
+<div class="page section-page">
+  <div class="wave-banner">
+    <div class="banner-content">
+      <div class="banner-icon">🔡</div>
+      <div><div class="sec-label ez" contenteditable="false">Section 07 — Punctuation Guide</div><h2 class="ez" contenteditable="false">Punctuation for Grade 6 <span style="font-size:13px;font-family:'Nunito',sans-serif;font-weight:700;opacity:.85;">(CCSS L.6.2)</span></h2></div>
+    </div>
+  </div>
+  <div class="section-content pb60">
+    <div class="how-intro mb10">Grade 6 punctuation focuses on <strong>nonrestrictive elements</strong> — extra information added to a sentence using commas, parentheses, or dashes. 🚦</div>
+
+    <div class="skill-block mb10">
+      <div class="skill-header"><span class="sh-icon">,</span> Commas — Setting Off Extra Information</div>
+      <div class="gram-table-wrap"><table class="gram-table">
+        <tbody><tr><th class="ez" contenteditable="false">Rule</th><th class="ez" contenteditable="false">Why</th><th class="ez" contenteditable="false">Example</th></tr>
+        <tr><td class="ez" contenteditable="false">Nonrestrictive clause</td><td class="ez" contenteditable="false">Extra info that could be removed without changing the meaning — set it off with two commas.</td><td class="ez" contenteditable="false">My sister<span class="correct">, who lives in Paris,</span> visits every summer.</td></tr>
+        <tr><td class="ez" contenteditable="false">Appositive phrase</td><td class="ez" contenteditable="false">A phrase that renames the noun next to it.</td><td class="ez" contenteditable="false">Our teacher<span class="correct">, Ms. Ramos,</span> assigned three chapters.</td></tr>
+        <tr><td class="ez" contenteditable="false">Introductory element</td><td class="ez" contenteditable="false">After an introductory word, phrase, or clause at the start of a sentence.</td><td class="ez" contenteditable="false"><span class="correct">After finishing the novel,</span> we discussed the ending.</td></tr>
+        <tr><td class="ez" contenteditable="false">Interrupter</td><td class="ez" contenteditable="false">A word or phrase that interrupts the flow — set it off with two commas.</td><td class="ez" contenteditable="false">The poem<span class="correct">, in my opinion,</span> has a hopeful tone.</td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="skill-block mb10">
+      <div class="skill-header"><span class="sh-icon">( )</span> Parentheses — Adding Extra Information</div>
+      <div class="gram-table-wrap"><table class="gram-table">
+        <tbody><tr><th class="ez" contenteditable="false">Use</th><th class="ez" contenteditable="false">Rule</th><th class="ez" contenteditable="false">Example</th></tr>
+        <tr><td class="ez" contenteditable="false">Additional detail</td><td class="ez" contenteditable="false">Add a useful fact or explanation that is not essential to the sentence.</td><td class="ez" contenteditable="false">The poem <span class="correct">(written in 1920)</span> has three stanzas.</td></tr>
+        <tr><td class="ez" contenteditable="false">Abbreviation</td><td class="ez" contenteditable="false">Define an abbreviation the first time you use it.</td><td class="ez" contenteditable="false">Common Core State Standards <span class="correct">(CCSS)</span> guide the curriculum.</td></tr>
+        <tr><td class="ez" contenteditable="false">Punctuation tip</td><td class="ez" contenteditable="false">If the parenthetical is inside a sentence, the period goes OUTSIDE the closing bracket.</td><td class="ez" contenteditable="false">She chose the harder option <span class="correct">(which surprised everyone)</span>.</td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div class="skill-block mb10">
+      <div class="skill-header"><span class="sh-icon">—</span> Dashes — Emphasis and Drama</div>
+      <div class="gram-table-wrap"><table class="gram-table">
+        <tbody><tr><th class="ez" contenteditable="false">Use</th><th class="ez" contenteditable="false">Rule</th><th class="ez" contenteditable="false">Example</th></tr>
+        <tr><td class="ez" contenteditable="false">Single dash</td><td class="ez" contenteditable="false">Introduces a summary, explanation, or dramatic pause at the end of a clause.</td><td class="ez" contenteditable="false">He only wanted one thing<span class="correct"> — to be free.</span></td></tr>
+        <tr><td class="ez" contenteditable="false">Double dashes</td><td class="ez" contenteditable="false">Enclose a parenthetical element more dramatically than commas — great for emphasis.</td><td class="ez" contenteditable="false">The decision<span class="correct"> — made in seconds —</span> changed everything.</td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div style="background:var(--b4);border-radius:var(--radius-sm);padding:10px 14px;display:flex;gap:14px;align-items:flex-start;">
+      <div style="text-align:center;flex-shrink:0;"><div style="font-size:16px;font-weight:900;color:var(--b1);">,  ,</div><div style="font-size:9px;font-weight:800;color:var(--b1);">COMMAS</div><div style="font-size:10px;color:var(--muted);margin-top:2px;">Neutral</div></div>
+      <div style="flex:1;font-size:11px;color:var(--muted);"><em>My dog, a labrador, loves walks.</em></div>
+      <div style="text-align:center;flex-shrink:0;"><div style="font-size:16px;font-weight:900;color:var(--b1);">( )</div><div style="font-size:9px;font-weight:800;color:var(--b1);">PARENTHESES</div><div style="font-size:10px;color:var(--muted);margin-top:2px;">Whispered</div></div>
+      <div style="flex:1;font-size:11px;color:var(--muted);"><em>My dog (a rescue) loves walks.</em></div>
+      <div style="text-align:center;flex-shrink:0;"><div style="font-size:16px;font-weight:900;color:var(--b1);">— —</div><div style="font-size:9px;font-weight:800;color:var(--b1);">DASHES</div><div style="font-size:10px;color:var(--muted);margin-top:2px;">Dramatic</div></div>
+      <div style="flex:1;font-size:11px;color:var(--muted);"><em>My dog — a huge labrador — loves walks.</em></div>
+    </div>
+
+    <textarea class="write-area-sm" data-id="s07-punct" placeholder="Write three sentences: one using commas, one using parentheses, and one using dashes to set off extra information." style="margin-top:8px;min-height:55px;"></textarea>
+  </div>
+  <div class="page-footer"><span class="ez" contenteditable="false">Summer Skills Booklet — Grade 5 → 6</span><span class="ez" contenteditable="false">Section 07 — Punctuation (CCSS L.6.2)</span></div>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║  PAGE 10 — SECTION 08: SELF-CHECK                    ║
+     ╚══════════════════════════════════════════════════════╝ -->
+<div class="page section-page">
+  <div class="wave-banner">
+    <div class="banner-content">
+      <div class="banner-icon">✅</div>
+      <div><div class="sec-label ez" contenteditable="false">Section 08 — Self-Check</div><h2 class="ez" contenteditable="false">Am I Ready?</h2></div>
+    </div>
+  </div>
+  <div class="section-content pb60">
+    <div class="how-intro mb12">Go through this list honestly. Tick only the skills you are genuinely confident in. Leave the rest — those are your summer goals! 🎯</div>
+    <ul class="checklist mb12">
+      <li><input type="checkbox" class="ck-box" data-id="ck1">I can explain how an author builds a theme across a whole story, not just say what the theme is</li>
+      <li><input type="checkbox" class="ck-box" data-id="ck2">I can find specific evidence in a text and explain clearly why it supports my argument</li>
+      <li><input type="checkbox" class="ck-box" data-id="ck3">I can analyse how point of view affects what the reader knows and feels</li>
+      <li><input type="checkbox" class="ck-box" data-id="ck4">I can identify the connotation of a word and explain its effect on the reader</li>
+      <li><input type="checkbox" class="ck-box" data-id="ck5">I can write a TEA paragraph: Topic Sentence → Evidence → Analysis</li>
+      <li><input type="checkbox" class="ck-box" data-id="ck6">I can write an argumentative essay that includes a counter-argument paragraph</li>
+      <li><input type="checkbox" class="ck-box" data-id="ck7">I can write a specific, arguable thesis statement — not just a topic</li>
+      <li><input type="checkbox" class="ck-box" data-id="ck8">I can trace and evaluate the argument in a nonfiction text</li>
+      <li><input type="checkbox" class="ck-box" data-id="ck9">I can write a Works Cited entry for a book and for a website</li>
+      <li><input type="checkbox" class="ck-box" data-id="ck10">I know the five essential MLA formatting rules</li>
+      <li><input type="checkbox" class="ck-box" data-id="ck11">I can use pronouns in the correct case (subjective, objective, possessive)</li>
+      <li><input type="checkbox" class="ck-box" data-id="ck12">I can use intensive pronouns correctly (myself, herself, themselves, etc.)</li>
+      <li><input type="checkbox" class="ck-box" data-id="ck13">I can identify and fix a vague pronoun reference in my writing</li>
+      <li><input type="checkbox" class="ck-box" data-id="ck14">I can use commas to set off nonrestrictive clauses and appositives</li>
+      <li><input type="checkbox" class="ck-box" data-id="ck15">I can use dashes and parentheses correctly to add parenthetical information</li>
+    </ul>
+    <div class="think-bubble">
+      <h3 class="ez" contenteditable="false">Reflect on Your Checklist</h3>
+      <p class="ez" contenteditable="false">💪 Which skills did you tick straight away? Those are your strengths — use them!</p>
+      <p class="ez" contenteditable="false">🎯 Which skills did you leave blank? That's your summer focus!</p>
+      <p class="ez" contenteditable="false">📖 Which section of this booklet should you re-read before school starts?</p>
+    </div>
+    <textarea class="write-area-sm" data-id="s08-reflect" placeholder="Write your reflection here…" style="margin-top:8px;min-height:55px;"></textarea>
+  </div>
+  <div class="page-footer"><span class="ez" contenteditable="false">Summer Skills Booklet — Grade 5 → 6</span><span class="ez" contenteditable="false">Section 08 — Self-Check</span></div>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║  PAGE 11 — SECTION 09: SUMMER ACTIVITIES             ║
+     ╚══════════════════════════════════════════════════════╝ -->
+<div class="page section-page">
+  <div class="wave-banner">
+    <div class="banner-content">
+      <div class="banner-icon">🎯</div>
+      <div><div class="sec-label ez" contenteditable="false">Section 09 — Let's Practise!</div><h2 class="ez" contenteditable="false">Summer Activities</h2></div>
+    </div>
+  </div>
+  <div class="section-content pb60">
+    <p style="font-size:12px;color:var(--muted);margin-bottom:11px;" class="ez" contenteditable="false">Try at least <strong>ONE</strong> of these activities before school starts. Write your answers right in the booklet! ✏️</p>
+
+    <div class="activity-card mb10">
+      <div class="activity-header">
+        <div class="ah-left"><span class="ah-icon">📖</span><div><strong>Point of View Swap</strong><span>Creative Challenge</span></div></div>
+        <div class="activity-stars"><span>⭐</span></div>
+      </div>
+      <div class="activity-body">
+        <p class="ez" contenteditable="false">Take a scene from a story you know well. Rewrite it from a completely different character's perspective. Then write 2–3 sentences: How does the change in narrator change what the reader knows and feels?</p>
+        <textarea class="act-area" data-id="act1" placeholder="Write your Point of View Swap here…"></textarea>
+      </div>
+    </div>
+
+    <div class="activity-card mb10">
+      <div class="activity-header">
+        <div class="ah-left"><span class="ah-icon">📰</span><div><strong>Argument Detective</strong><span>Critical Thinking Challenge</span></div></div>
+        <div class="activity-stars"><span>⭐</span><span>⭐</span></div>
+      </div>
+      <div class="activity-body">
+        <p class="ez" contenteditable="false">Find a short opinion article on a topic you care about. Identify: (1) the author's main claim, (2) two pieces of evidence they use, (3) any counter-arguments they bring up. Then write one paragraph: Is their argument convincing? Why or why not?</p>
+        <textarea class="act-area" data-id="act2" placeholder="Write your Argument Detective analysis here…"></textarea>
+      </div>
+    </div>
+
+    <div class="activity-card mb10">
+      <div class="activity-header">
+        <div class="ah-left"><span class="ah-icon">💬</span><div><strong>Connotation Explorer</strong><span>Word Power Challenge</span></div></div>
+        <div class="activity-stars"><span>⭐</span><span>⭐</span></div>
+      </div>
+      <div class="activity-body">
+        <p class="ez" contenteditable="false">Find five pairs of words with the same denotation but different connotations (e.g., <em>thin / skinny</em>, <em>confident / arrogant</em>). For each pair, explain the difference in feeling. Then use three of them in sentences about a character from a book.</p>
+        <textarea class="act-area" data-id="act3" placeholder="Write your Connotation Explorer work here…"></textarea>
+      </div>
+    </div>
+
+    <div class="activity-card">
+      <div class="activity-header">
+        <div class="ah-left"><span class="ah-icon">🔍</span><div><strong>Pronoun Patrol</strong><span>Grammar Challenge</span></div></div>
+        <div class="activity-stars"><span>⭐</span><span>⭐</span><span>⭐</span></div>
+      </div>
+      <div class="activity-body">
+        <p class="ez" contenteditable="false">Find a paragraph in any book or article. Underline every pronoun. Identify its case (subjective, objective, or possessive) and check that the antecedent (the noun it refers to) is clear. Then rewrite one sentence using an intensive pronoun correctly.</p>
+        <textarea class="act-area" data-id="act4" placeholder="Write your Pronoun Patrol findings here…"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer"><span class="ez" contenteditable="false">Summer Skills Booklet — Grade 5 → 6</span><span class="ez" contenteditable="false">Section 09 — Summer Activities</span></div>
+</div>
+
+
+<!-- ╔══════════════════════════════════════════════════════╗
+     ║  PAGE 12 — CLOSING                                   ║
+     ╚══════════════════════════════════════════════════════╝ -->
+<div class="page closing-page">
+  <div class="closing-circle">🌟</div>
+  <h2 class="ez" contenteditable="false">You made it to the end!</h2>
+  <p class="ez" contenteditable="false">Well done for working through this booklet! You're already thinking like a Grade 6 student. Every section you read, every sentence you wrote, and every pronoun you checked this summer is building the skills you'll use on your very first day back.</p>
+  <p style="font-size:13px;opacity:.8;" class="ez" contenteditable="false">Remember: the best readers and writers aren't the ones who never find it hard — they're the ones who keep going even when they do.</p>
+  <div class="closing-badge">See you in Grade 6! 🎒</div>
+  <div class="confetti">📚 ✏️ ⭐ 💡 🌟</div>
+  <svg style="position:absolute;top:20px;right:30px;opacity:.15" width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="white" stroke-width="8"></circle><circle cx="60" cy="60" r="35" fill="none" stroke="white" stroke-width="5"></circle><circle cx="60" cy="60" r="20" fill="none" stroke="white" stroke-width="3"></circle></svg>
+  <svg style="position:absolute;bottom:40px;left:30px;opacity:.12" width="90" height="90" viewBox="0 0 90 90"><circle cx="45" cy="45" r="38" fill="none" stroke="white" stroke-width="7"></circle><circle cx="45" cy="45" r="24" fill="none" stroke="white" stroke-width="4"></circle></svg>
+</div>
+
+
+
+</body></html>
